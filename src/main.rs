@@ -311,6 +311,40 @@ fn main() {
     let test_folder: &[u8] = include_bytes!("examples/examples.zip");
     // let HELP = include_bytes!("help.txt");
 
+    let args: Vec<String> = std::env::args().collect();
+
+    if args.len() > 1 {
+        let mut stdout = io::stdout();
+        match args[1].as_str() {
+            "run_file" => {
+                if args.len() < 3 {
+                    println!("Usage: run_file <file_path>");
+                    return;
+                }
+                run_file_option(&mut stdout, python_script);
+            }
+            "run_string" => {
+                if args.len() < 3 {
+                    println!("Usage: run_string <string>");
+                    return;
+                }
+                run_string_option(&mut stdout);
+            }
+            "run_prompt" => run_prompt_option(&mut stdout),
+            "run_prompt_runic" => run_prompt_option_runic(&mut stdout, python_script),
+            "compile_file" => {
+                if args.len() < 3 {
+                    println!("Usage: compile_file <file_path>");
+                    return;
+                }
+                compile_only_option(&mut stdout, python_script);
+            }
+            "help" => run_help(&mut stdout, test_folder),
+            _ => println!("Invalid argument, please try again"),
+        }
+        return;
+    }
+
     loop {
         display_menu();
 
