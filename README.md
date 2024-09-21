@@ -1,10 +1,10 @@
-# Valkyrie Compiler
+# Valkyrie Interpreter
 
-Valkyrie Compiler is a Rust-based compiler for the Valkyrie programming language, a modification of the language created by [CodeScope](https://gitlab.com/codescope-reference/cii). This interpreter includes the ability to read and translate runes, making it a unique tool for developers interested in working with runic symbols.
+Valkyrie Interpreter is a Rust-based interpreter for the Valkyrie programming language, a modification of the language created by [CodeScope](https://gitlab.com/codescope-reference/cii). This interpreter includes the ability to read and translate runes, making it a unique tool for developers interested in working with runic symbols.
 
 ## Prerequisites
 
-To use the Valkyrie Compiler, you need the Valkyrie-Keymap app. This app provides the necessary key mappings for the runic symbols used in the Valkyrie language.
+To use the Valkyrie Interpreter, you need the Valkyrie-Keymap app. This app provides the necessary key mappings for the runic symbols used in the Valkyrie language.
 
 ## Features
 
