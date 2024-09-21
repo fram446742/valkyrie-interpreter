@@ -1,0 +1,172 @@
+# Valkyrie Language Helper Instructions
+
+## Symbols and Their Meanings 
+
+> **Warning:** This app is intended to work with the Valkyrie-Keymap app. To use the mappings, you need the app.
+
+- `var = 𖤍` // RShift + 1
+    - Used to declare a variable.
+
+- `fun = ♅` // RShift + 2
+    - Used to declare a function.
+
+- `if = ↟↟` // RShift + 3 x2
+    - Used for conditional statements.
+
+- `else = ↟↡` // RShift + 3 RShift + 4
+    - Used for the else part of conditional statements.
+
+- `while = ↟↠` // RShift + 3 RShift + 5
+    - Used to declare a while loop.
+
+- `for = 𒌐` // RShift + 7
+    - Used to declare a for loop.
+
+- `return = ↡` // RShift + 4
+    - Used to return a value from a function.
+
+- `And = ↠↠` // RShift + 5 x2
+    - Logical AND operator.
+
+- `Class = 🕈` // RShift + 0
+    - Used to declare a class.
+
+- `False = ☽` // RShift + 8
+    - Boolean false value.
+
+- `Null = ☽𖤍` // RShift + 8 RShift + 1
+    - Null value.
+
+- `Or = ↞↞` // RShift + 6 x2
+    - Logical OR operator.
+
+- `Print = ♅♅` // RShift + 2 x2
+    - Used to print output.
+
+- `Super = 🕈↟` // RShift + 0 RShift + 3
+    - Used to refer to the superclass.
+
+- `This = 🕈↡` // RShift + 0 RShift + 4
+    - Used to refer to the current instance.
+
+- `True = 𖤓` // RShift + 9
+    - Boolean true value.
+
+## Language Capabilities
+
+### Inheritance
+- Classes can inherit from other classes using the `Super` keyword.
+
+### Classes
+- Classes are declared using the `Class` keyword.
+- Classes can contain methods, properties, and constructors.
+
+### Methods
+- Methods are functions defined within a class.
+
+### Loops
+- The language supports `while` and `for` loops for iteration.
+
+### Functions
+- Functions are declared using the `fun` keyword.
+
+### Scopes
+- The language supports block-level scoping for variables.
+
+### Generics
+- The language supports generic types for functions and classes.
+
+### Getters and Setters
+- Properties in classes can have getters and setters for encapsulation.
+
+### Pipes
+- The language supports pipe operations for chaining function calls.
+
+### Non-Trivial Constructors
+- Classes can have constructors with parameters for initialization.
+
+### This
+- The `This` keyword is used to refer to the current instance of a class.
+
+## Example Usage
+
+### Variable Declaration
+
+𖤍 MyVar = 34; or ᛡᚨᛃ = 34; or var = 34;
+
+### Function Declaration
+
+♅ MyFunction () {
+    ↡ 𖤍 + 10;
+}
+
+### Conditional Statements
+
+↟↟ (𖤍 > 10) {
+    ♅♅("Variable is greater than 10");
+} ↟↡ {
+    ♅♅("Variable is less than or equal to 10");
+}
+
+### While Loop
+
+↟↠ (𖤍 < 50) {
+    𖤍 = 𖤍 + 1;
+}
+
+### For Loop
+
+𒌐 (𖤍 = 0; 𖤍 < 10; 𖤍 = 𖤍 + 1) {
+    ♅♅(𖤍);
+}
+
+### Class Declaration
+
+🕈 MyClass {
+    ♅ constructor() {
+        🕈↡.property = 𖤍;
+    }
+
+    ♅ getProperty() {
+        ↡ 🕈↡.property;
+    }
+}
+
+### Logical Operators
+
+𖤍 = (𖤍 > 10) ↠↠ (𖤍 < 20);
+𖤍 = (𖤍 < 5) ↞↞ (𖤍 > 15);
+
+### Boolean Values
+
+𖤍 = ☽; // False
+𖤍 = 𖤓; // True
+
+### Null Value
+
+𖤍 = ☽𖤍;
+
+### Print Output
+
+♅♅("Hello, Valkyrie!");
+
+### Superclass Reference
+
+🕈 MySubClass 🕈↟ MyClass {
+    ♅ constructor() {
+        🕈↟.constructor();
+        🕈↡.subProperty = 𖤍;
+    }
+}
+
+### This Keyword
+
+🕈 AnotherClass {
+    ♅ constructor() {
+        🕈↡.anotherProperty = 𖤍;
+    }
+
+    ♅ getAnotherProperty() {
+        ↡ 🕈↡.anotherProperty;
+    }
+}
