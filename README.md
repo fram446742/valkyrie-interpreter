@@ -47,15 +47,7 @@ To use the Valkyrie Compiler, you need the Valkyrie-Keymap app. This app provide
 To run a Valkyrie file, use the following command:
 
 ```sh
-cargo run --release -- run_file <path_to_file>
-```
-
-### Running a String
-
-To run a string of Valkyrie code, use:
-
-```sh
-cargo run --release -- run_string "<valkyrie_code>"
+cargo run --release run_file <path_to_file>
 ```
 
 ### Interactive Prompt
@@ -63,7 +55,7 @@ cargo run --release -- run_string "<valkyrie_code>"
 To start an interactive prompt:
 
 ```sh
-cargo run --release -- run_prompt
+cargo run --release run_prompt
 ```
 
 ### Runic Prompt
@@ -71,13 +63,13 @@ cargo run --release -- run_prompt
 To start a runic interactive prompt:
 
 ```sh
-cargo run --release -- run_prompt_runic
+cargo run --release run_prompt_runic
 ```
 
 ### Compiling a File
 
 ```sh
-cargo run --release -- compile_file <path_to_file>
+cargo run --release compile_file <path_to_file>
 ```
 
 ## Example

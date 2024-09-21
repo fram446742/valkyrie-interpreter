@@ -130,7 +130,7 @@ fn run_prompt_runic(
 
 fn convert_input_with_python(input: &str, python_script: &[u8]) -> Result<String, String> {
     let mut temp_file = std::env::temp_dir();
-    temp_file.push("runic-compiler.py");
+    temp_file.push("runic-translator.py");
 
     if let Err(_) = fs::write(&temp_file, python_script) {
         return Err("Could not write temporary Python script".to_string());
@@ -184,13 +184,16 @@ fn get_user_input(stdout: &mut io::Stdout) -> String {
     buffer
 }
 
-fn run_file_option(stdout: &mut io::Stdout, python_script: &[u8]) {
-    let file_path = get_file_path(stdout);
+fn run_file_option(stdout: &mut io::Stdout, python_script: &[u8], file_path: Option<String>) {
+    let file_path = match file_path {
+        Some(path) => path,
+        None => get_file_path(stdout),
+    };
 
     let valkyrie: String;
     match file_path {
         ref path if path.ends_with(".runic") => {
-            compile_python_script(path.clone(), python_script);
+            translator_python_script(path.clone(), python_script);
             valkyrie = file_path.replace(".runic", ".valkyrie");
         }
         ref path if path.ends_with(".valkyrie") => {
@@ -250,16 +253,19 @@ fn run_prompt_option_runic(stdout: &mut io::Stdout, python_script: &[u8]) {
     }
 }
 
-fn compile_only_option(stdout: &mut io::Stdout, python_script: &[u8]) {
-    let file_path = get_file_path(stdout);
+fn translate_only_option(stdout: &mut io::Stdout, python_script: &[u8], file_path: Option<String>) {
+    let file_path = match file_path {
+        Some(path) => path,
+        None => get_file_path(stdout),
+    };
 
     if !file_path.ends_with(".runic") {
         println!("Error: File path must end with .runic");
         return;
     }
 
-    compile_python_script(file_path.clone(), python_script);
-    println!("File compiled to Valkyrie format");
+    translator_python_script(file_path.clone(), python_script);
+    println!("File translated to Valkyrie format");
 }
 
 fn get_file_path(stdout: &mut io::Stdout) -> String {
@@ -278,9 +284,9 @@ fn get_file_path(stdout: &mut io::Stdout) -> String {
     file_path.trim().to_string()
 }
 
-fn compile_python_script(file_path: String, python_script: &[u8]) {
+fn translator_python_script(file_path: String, python_script: &[u8]) {
     let mut temp_file = std::env::temp_dir();
-    temp_file.push("runic-compiler.py");
+    temp_file.push("runic-translator.py");
 
     if let Err(_) = fs::write(&temp_file, python_script) {
         println!("Could not write temporary Python script");
@@ -307,7 +313,7 @@ fn compile_python_script(file_path: String, python_script: &[u8]) {
 }
 
 fn main() {
-    let python_script: &[u8] = include_bytes!("py/runic-compiler.py");
+    let python_script: &[u8] = include_bytes!("py/runic-translator.py");
     let test_folder: &[u8] = include_bytes!("examples/examples.zip");
     // let HELP = include_bytes!("help.txt");
 
@@ -321,7 +327,7 @@ fn main() {
                     println!("Usage: run_file <file_path>");
                     return;
                 }
-                run_file_option(&mut stdout, python_script);
+                run_file_option(&mut stdout, python_script, Some(args[2].clone()));
             }
             "run_string" => {
                 if args.len() < 3 {
@@ -332,12 +338,12 @@ fn main() {
             }
             "run_prompt" => run_prompt_option(&mut stdout),
             "run_prompt_runic" => run_prompt_option_runic(&mut stdout, python_script),
-            "compile_file" => {
+            "translate_file" => {
                 if args.len() < 3 {
-                    println!("Usage: compile_file <file_path>");
+                    println!("Usage: translate_file <file_path>");
                     return;
                 }
-                compile_only_option(&mut stdout, python_script);
+                translate_only_option(&mut stdout, python_script, Some(args[2].clone()));
             }
             "help" => run_help(&mut stdout, test_folder),
             _ => println!("Invalid argument, please try again"),
@@ -352,11 +358,11 @@ fn main() {
         let buffer = get_user_input(&mut stdout);
 
         match buffer.trim() {
-            "1" => run_file_option(&mut stdout, python_script),
+            "1" => run_file_option(&mut stdout, python_script, None),
             "2" => run_string_option(&mut stdout),
             "3" => run_prompt_option(&mut stdout),
             "4" => run_prompt_option_runic(&mut stdout, python_script),
-            "5" => compile_only_option(&mut stdout, python_script),
+            "5" => translate_only_option(&mut stdout, python_script, None),
             "6" => {
                 run_help(&mut stdout, test_folder);
             }
