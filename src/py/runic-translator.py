@@ -203,6 +203,43 @@ keyword_runes = {
     "True": "𖤓",
 }
 
+def translateKeywords(input):
+    keyword_runesInverted = {
+    "𖤍":"var",
+    "♅":"fun",
+    "↟↟": "if",
+    "↟↡": "else",
+    "↟↠": "while",
+    "𒌐": "for",
+    "↡": "return",
+    "↠↠": "And",
+    "🕈": "Class",
+    "☽": "False",
+    "☽𖤍": "Null",
+    "↞↞": "Or",
+    "♅♅": "Print",
+    "🕈↟": "Super",
+    "🕈↡": "This",
+    "𖤓": "True",
+    }
+
+    input=input+" "
+    output = []
+    word = ""
+
+    for x in input:
+        if x == " ":
+            if(word in keyword_runesInverted):
+                word=keyword_runesInverted[word]
+            output.append(word)
+            word = ""
+        else:
+            word = word + x
+    output.append(word)
+
+    return ' '.join(output)
+
+
 # Create the inverse mappings from custom symbols to alphabet letters
 inverse_uppercase_runes = {v: k for k, v in uppercase_runes.items()}
 inverse_lowercase_runes = {v: k for k, v in lowercase_runes.items()}
