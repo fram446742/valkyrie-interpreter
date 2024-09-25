@@ -10,64 +10,64 @@ fn is_alpha(ch: char) -> bool {
     (uch >= 'a' as u8 && uch <= 'z' as u8) || (uch >= 'A' as u8 && uch <= 'Z' as u8) || (ch == '_')
 }
 
-fn get_latin_char(ch: char) -> Option<char> {
-    let runes: HashMap<char, char> = HashMap::from([
-        ('ᚨ', 'a'),
-        ('ᛒ', 'b'),
-        ('ᚲ', 'c'),
-        ('ᛞ', 'd'),
-        ('ᚯ', 'e'),
-        ('ᚡ', 'f'),
-        ('ᚷ', 'g'),
-        ('ᚻ', 'h'),
-        ('ᛂ', 'i'),
-        ('ᛃ', 'j'),
-        ('ᛘ', 'k'),
-        ('ᛚ', 'l'),
-        ('ᛖ', 'm'),
-        ('ᚾ', 'n'),
-        ('ᛜ', 'o'),
-        ('ᛩ', 'p'),
-        ('ᛶ', 'q'),
-        ('ᛄ', 'r'),
-        ('ᛋ', 's'),
-        ('ᛅ', 't'),
-        ('ᚦ', 'u'),
-        ('ᚤ', 'v'),
-        ('ᚳ', 'w'),
-        ('ᛯ', 'x'),
-        ('ᚴ', 'y'),
-        ('ᛇ', 'z'),
-        ('ᚪ', 'A'),
-        ('ᛔ', 'B'),
-        ('ᛈ', 'C'),
-        ('ᚺ', 'D'),
-        ('ᛑ', 'E'),
-        ('ᛣ', 'F'),
-        ('ᛇ', 'G'),
-        ('ᛡ', 'H'),
-        ('ᛥ', 'I'),
-        ('ᚠ', 'J'),
-        ('ᚵ', 'K'),
-        ('ᛚ', 'L'),
-        ('ᛗ', 'M'),
-        ('ᚬ', 'N'),
-        ('ᛟ', 'O'),
-        ('ᚹ', 'P'),
-        ('ᚿ', 'Q'),
-        ('ᚱ', 'R'),
-        ('ᛊ', 'S'),
-        ('ᛏ', 'T'),
-        ('ᚮ', 'U'),
-        ('ᚢ', 'V'),
-        ('ᛠ', 'W'),
-        ('ᛤ', 'X'),
-        ('ᛉ', 'Y'),
-        ('ᛢ', 'Z'),
-    ]);
+// fn get_latin_char(ch: char) -> Option<char> {
+//     let runes: HashMap<char, char> = HashMap::from([
+//         ('ᚨ', 'a'),
+//         ('ᛒ', 'b'),
+//         ('ᚲ', 'c'),
+//         ('ᛞ', 'd'),
+//         ('ᚯ', 'e'),
+//         ('ᚡ', 'f'),
+//         ('ᚷ', 'g'),
+//         ('ᚻ', 'h'),
+//         ('ᛂ', 'i'),
+//         ('ᛃ', 'j'),
+//         ('ᛘ', 'k'),
+//         ('ᛚ', 'l'),
+//         ('ᛖ', 'm'),
+//         ('ᚾ', 'n'),
+//         ('ᛜ', 'o'),
+//         ('ᛩ', 'p'),
+//         ('ᛶ', 'q'),
+//         ('ᛄ', 'r'),
+//         ('ᛋ', 's'),
+//         ('ᛅ', 't'),
+//         ('ᚦ', 'u'),
+//         ('ᚤ', 'v'),
+//         ('ᚳ', 'w'),
+//         ('ᛯ', 'x'),
+//         ('ᚴ', 'y'),
+//         ('ᛇ', 'z'),
+//         ('ᚪ', 'A'),
+//         ('ᛔ', 'B'),
+//         ('ᛈ', 'C'),
+//         ('ᚺ', 'D'),
+//         ('ᛑ', 'E'),
+//         ('ᛣ', 'F'),
+//         ('ᛇ', 'G'),
+//         ('ᛡ', 'H'),
+//         ('ᛥ', 'I'),
+//         ('ᚠ', 'J'),
+//         ('ᚵ', 'K'),
+//         ('ᛚ', 'L'),
+//         ('ᛗ', 'M'),
+//         ('ᚬ', 'N'),
+//         ('ᛟ', 'O'),
+//         ('ᚹ', 'P'),
+//         ('ᚿ', 'Q'),
+//         ('ᚱ', 'R'),
+//         ('ᛊ', 'S'),
+//         ('ᛏ', 'T'),
+//         ('ᚮ', 'U'),
+//         ('ᚢ', 'V'),
+//         ('ᛠ', 'W'),
+//         ('ᛤ', 'X'),
+//         ('ᛉ', 'Y'),
+//         ('ᛢ', 'Z'),
+//     ]);
 
-    runes.get(&ch).cloned()
-}
+//     runes.get(&ch).cloned()
+// }
 
 fn is_alpha_numeric(ch: char) -> bool {
     is_alpha(ch) || is_digit(ch)
@@ -232,12 +232,12 @@ impl Scanner {
                     self.number()?;
                 } else if is_alpha(c) {
                     self.identifier();
-                } else if let Some(latin_char) = get_latin_char(c) {
-                    // Simulate that the character is the Latin counterpart
-                    self.start = self.current - 1; // Reset to start scanning from this rune
-                    self.source
-                        .replace_range(self.start..self.current, &latin_char.to_string());
-                    self.identifier(); // Process as if it was a normal Latin character
+                // } else if let Some(latin_char) = get_latin_char(c) {
+                //     // Simulate that the character is the Latin counterpart
+                //     self.start = self.current - 1; // Reset to start scanning from this rune
+                //     self.source
+                //         .replace_range(self.start..self.current, &latin_char.to_string());
+                //     self.identifier(); // Process as if it was a normal Latin character
                 } else {
                     return Err(format!("Unrecognized char at line {}: {}", self.line, c));
                 }

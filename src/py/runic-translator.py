@@ -3,8 +3,8 @@ import os
 import sys
 import argparse
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
 # Uppercase runes
 uppercase_runes = {
@@ -192,53 +192,16 @@ keyword_runes = {
     "while": "↟↠",
     "for": "𒌐",
     "return": "↡",
-    "And": "↠↠",
-    "Class": "🕈",
-    "False": "☽",
-    "Null": "☽𖤍",
-    "Or": "↞↞",
-    "Print": "♅♅",
-    "Super": "🕈↟",
-    "This": "🕈↡",
-    "True": "𖤓",
+    "and": "↠↠",
+    "class": "🕈",
+    "false": "☽",
+    "null": "☽𖤍",
+    "pr": "↞↞",
+    "print": "♅♅",
+    "super": "🕈↟",
+    "this": "🕈↡",
+    "true": "𖤓",
 }
-
-def translateKeywords(input):
-    keyword_runesInverted = {
-    "𖤍":"var",
-    "♅":"fun",
-    "↟↟": "if",
-    "↟↡": "else",
-    "↟↠": "while",
-    "𒌐": "for",
-    "↡": "return",
-    "↠↠": "And",
-    "🕈": "Class",
-    "☽": "False",
-    "☽𖤍": "Null",
-    "↞↞": "Or",
-    "♅♅": "Print",
-    "🕈↟": "Super",
-    "🕈↡": "This",
-    "𖤓": "True",
-    }
-
-    input=input+" "
-    output = []
-    word = ""
-
-    for x in input:
-        if x == " ":
-            if(word in keyword_runesInverted):
-                word=keyword_runesInverted[word]
-            output.append(word)
-            word = ""
-        else:
-            word = word + x
-    output.append(word)
-
-    return ' '.join(output)
-
 
 # Create the inverse mappings from custom symbols to alphabet letters
 inverse_uppercase_runes = {v: k for k, v in uppercase_runes.items()}
@@ -246,46 +209,47 @@ inverse_lowercase_runes = {v: k for k, v in lowercase_runes.items()}
 inverse_keyword_runes = {v: k for k, v in keyword_runes.items()}
 
 
-def to_custom_symbols(text, is_rust=False):
+# TODO: Revise this function
+def translateKeywords(input):
+    input = input + " "
+    output = []
+    word = ""
+
+    for x in input:
+        if x == " ":
+            if word in inverse_keyword_runes:
+                word = inverse_keyword_runes[word]
+            output.append(word)
+            word = ""
+        else:
+            word = word + x
+    output.append(word)
+
+    return " ".join(output)
+
+
+def to_custom_symbols(text):
     result = []
     inside_quotes = False
     quote_char = None
     inside_comment = False
-    inside_block_comment = False
 
     i = 0
     while i < len(text):
         char = text[i]
 
-        # Handle Rust block comments /* ... */
-        if (
-            is_rust
-            and not inside_quotes
-            and not inside_comment
-            and text[i : i + 2] == "/*"
-        ):
-            inside_block_comment = True
-            result.append("/*")
-            i += 1  # Skip the next character
-        elif is_rust and inside_block_comment and text[i : i + 2] == "*/":
-            inside_block_comment = False
-            result.append("*/")
-            i += 1  # Skip the next character
-        elif inside_block_comment:
-            result.append(char)
-
         # Check if the character is inside quotes
-        elif char in ('"', "'"):
-            if inside_quotes and char == quote_char:
+        if char in ('"', "'"):
+            if inside_quotes and char == quote_char and (i == 0 or text[i - 1] != "\\"):
                 inside_quotes = False
                 quote_char = None
-            else:
+            elif not inside_quotes:
                 inside_quotes = True
                 quote_char = char
             result.append(char)
 
-        # Handle Rust line comments starting with //
-        elif is_rust and text[i : i + 2] == "//" and not inside_quotes:
+        # Check for single-line comment
+        elif text[i : i + 2] == "//" and not inside_quotes:
             inside_comment = True
             result.append("//")
             i += 1  # Skip the next character
@@ -294,17 +258,19 @@ def to_custom_symbols(text, is_rust=False):
                 inside_comment = False
             result.append(char)
 
-        # Handle Python # comments
-        elif not is_rust and char == "#" and not inside_quotes:
-            inside_comment = True
-            result.append(char)
-        elif inside_comment:
-            if char == "\n":
-                inside_comment = False
-            result.append(char)
+        # Handle keywords by reading whole words
+        elif char.isalpha() and not inside_quotes and not inside_comment:
+            start = i
+            while i < len(text) and text[i].isalpha():
+                i += 1
+            word = text[start:i]
+            if word in keyword_runes:
+                result.append(keyword_runes[word])
+            else:
+                result.append(word)
+            continue  # Skip the increment at the end since i is already updated
 
-        # Convert symbols
-        # TODO: Handle multi-character keywords
+        # Convert individual characters
         elif char in uppercase_runes:
             result.append(uppercase_runes[char])
         elif char in lowercase_runes:
@@ -313,39 +279,22 @@ def to_custom_symbols(text, is_rust=False):
             result.append(char)
 
         i += 1
+
     return "".join(result)
 
 
-def from_custom_symbols(text, is_rust=False):
+def from_custom_symbols(text):
     result = []
     inside_quotes = False
     quote_char = None
-    i = 0
     inside_comment = False
-    inside_block_comment = False
 
+    i = 0
     while i < len(text):
         char = text[i]
 
-        # Handle Rust block comments /* ... */
-        if (
-            is_rust
-            and not inside_quotes
-            and not inside_comment
-            and text[i : i + 2] == "/*"
-        ):
-            inside_block_comment = True
-            result.append("/*")
-            i += 1
-        elif is_rust and inside_block_comment and text[i : i + 2] == "*/":
-            inside_block_comment = False
-            result.append("*/")
-            i += 1
-        elif inside_block_comment:
-            result.append(char)
-
         # Handle quoted strings
-        elif char in ('"', "'"):
+        if char in ('"', "'"):
             if inside_quotes and char == quote_char:
                 inside_quotes = False
                 quote_char = None
@@ -354,8 +303,8 @@ def from_custom_symbols(text, is_rust=False):
                 quote_char = char
             result.append(char)
 
-        # Handle Rust line comments starting with //
-        elif is_rust and text[i : i + 2] == "//" and not inside_quotes:
+        # Handle single-line comments
+        elif text[i : i + 2] == "//" and not inside_quotes:
             inside_comment = True
             result.append("//")
             i += 1
@@ -364,75 +313,36 @@ def from_custom_symbols(text, is_rust=False):
                 inside_comment = False
             result.append(char)
 
-        # Handle Python comments
-        elif not is_rust and char == "#" and not inside_quotes:
-            inside_comment = True
-            result.append(char)
-        elif inside_comment:
-            if char == "\n":
-                inside_comment = False
-            result.append(char)
-
-        # Handle multi-character keywords
-        elif char in keyword_runes:
-            keyword = char
-            j = i + 1
-            while j < len(text) and text[j] in keyword_runes:
-                keyword += text[j]
-                j += 1
-            if keyword in keyword_runes:
-                result.append(keyword_runes[keyword])
-                i = j - 1
-            else:
-                result.append(char)
-
-        # Convert symbols back to original
-        elif char in inverse_uppercase_runes:
-            result.append(inverse_uppercase_runes[char])
-        elif char in inverse_lowercase_runes:
-            result.append(inverse_lowercase_runes[char])
-        elif char in inverse_keyword_runes:
-            result.append(inverse_keyword_runes[char])
+        # Handle multi-character symbols
         else:
-            result.append(char)
+            # Attempt to match multi-character symbols for keywords
+            matched = False
+            for symbol, keyword in sorted(inverse_keyword_runes.items(), key=lambda x: len(x[0]), reverse=True):
+                if text[i : i + len(symbol)] == symbol:
+                    result.append(keyword)
+                    i += len(symbol) - 1  # Skip the matched symbol
+                    matched = True
+                    break
+
+            # If no multi-character symbol matched, handle single characters
+            if not matched:
+                if char in inverse_uppercase_runes:
+                    result.append(inverse_uppercase_runes[char])
+                elif char in inverse_lowercase_runes:
+                    result.append(inverse_lowercase_runes[char])
+                else:
+                    result.append(char)
 
         i += 1
+
     return "".join(result)
-
-
-def convert_py_to_runyc(filepath):
-    with open(filepath, "r", encoding="utf-8") as f:
-        content = f.read()
-    converted_content = to_custom_symbols(content, is_rust=False)
-    new_filename = filepath.replace(".py", ".runyc")
-
-    if os.path.exists(new_filename):
-        os.remove(new_filename)
-
-    with open(new_filename, "w", encoding="utf-8") as f:
-        f.write(converted_content)
-    print(f"Converted {filepath} to {new_filename}")
 
 
 def convert_valkyrie_to_runic(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
-    converted_content = to_custom_symbols(content, is_rust=True)
+    converted_content = to_custom_symbols(content)
     new_filename = filepath.replace(".valkyrie", ".runic")
-
-    if os.path.exists(new_filename):
-        os.remove(new_filename)
-
-    with open(new_filename, "w", encoding="utf-8") as f:
-        f.write(converted_content)
-    print(f"Converted {filepath} to {new_filename}")
-
-
-def convert_runyc_to_py(filepath):
-    with open(filepath, "r", encoding="utf-8") as f:
-        content = f.read()
-    converted_content = from_custom_symbols(content, is_rust=False)
-    new_filename = filepath.replace(".runyc", ".py")
 
     if os.path.exists(new_filename):
         os.remove(new_filename)
@@ -445,7 +355,7 @@ def convert_runyc_to_py(filepath):
 def convert_runic_to_valkyrie(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
-    converted_content = from_custom_symbols(content, is_rust=True)
+    converted_content = from_custom_symbols(content)
     new_filename = filepath.replace(".runic", ".valkyrie")
 
     if os.path.exists(new_filename):
@@ -457,12 +367,15 @@ def convert_runic_to_valkyrie(filepath):
 
 
 def process_string(input_string):
-    converted_string = from_custom_symbols(input_string, is_rust=False)
+    converted_string = from_custom_symbols(input_string)
     print(converted_string)
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Convert between different file types or process strings.")
-    
+    parser = argparse.ArgumentParser(
+        description="Convert between different file types or process strings."
+    )
+
     # Adding options
     parser.add_argument("-f", "--file", help="The file to convert")
     parser.add_argument("-s", "--string", help="A raw string to process")
@@ -475,12 +388,8 @@ def main():
         if not os.path.isfile(args.file):
             print(f"File {args.file} does not exist.")
             return
-        elif args.file.endswith(".py"):
-            convert_py_to_runyc(args.file)
         elif args.file.endswith(".valkyrie"):
             convert_valkyrie_to_runic(args.file)
-        elif args.file.endswith(".runyc"):
-            convert_runyc_to_py(args.file)
         elif args.file.endswith(".runic"):
             convert_runic_to_valkyrie(args.file)
         else:
@@ -494,7 +403,10 @@ def main():
         #     print("Please specify an action for the string: -r to run.")
 
     else:
-        print("Please provide a valid option: -f for file or -s for string, -c for conversion, -r for running.")
+        print(
+            "Please provide a valid option: -f for file or -s for string, -c for conversion, -r for running."
+        )
+
 
 if __name__ == "__main__":
     main()
