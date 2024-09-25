@@ -72,6 +72,10 @@ cargo run --release run_prompt_runic
 cargo run --release compile_file <path_to_file>
 ```
 
+## Documentation
+
+Please refer to the [documentation](DOCUMENTATION.md) file.
+
 ## Example
 
 Here is an example of a Valkyrie program:
@@ -93,4 +97,4 @@ This project is licensed under the GNU License.
 - [CodeScope](https://gitlab.com/codescope-reference/cii) for the original language design.
 - The Rust community for their support and contributions.
 
-For more information, please refer to the [documentation](https://gitlab.com/codescope-reference/cii).
+For more information, please refer to the original [code](https://gitlab.com/codescope-reference/cii).
