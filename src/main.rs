@@ -88,8 +88,8 @@ fn run_prompt_runic(
 ) -> Result<(), String> {
     let mut interpreter = Interpreter::new();
     loop {
-        println!("Running in prompt mode (Runic) - simply press enter to exit");
-        println!("WARNING: In this mode custom characters are not supported");
+        println!("Running in prompt mode in runic(Rᚢᚾᛁᚲ) - simply press enter to exit");
+        println!("WARNING: In this mode custom characters are not supported ()");
         print!("> ");
         match stdout.flush() {
             Ok(_) => (),
@@ -159,14 +159,7 @@ fn convert_input_with_python(input: &str, python_script: &[u8]) -> Result<String
 }
 
 fn display_menu() {
-    println!("Select an option:");
-    println!("1. Run a file");
-    println!("2. Run a string");
-    println!("3. Run in prompt mode");
-    println!("4. Run in prompt mode (Runic)");
-    println!("5. Compile only");
-    println!("6. Show help");
-    println!("7. Exit");
+    println!("{}", MENU_OPTIONS);
     print!("> ");
 }
 
@@ -204,11 +197,6 @@ fn run_file_option(stdout: &mut io::Stdout, python_script: &[u8], file_path: Opt
             return;
         }
     }
-
-    // if !file_path.ends_with(".runic") {
-    //     println!("Error: File path must end with .runic");
-    //     return;
-    // }
 
     match run_file(&valkyrie.trim()) {
         Ok(_) => println!("File executed successfully"),
@@ -312,6 +300,31 @@ fn translator_python_script(file_path: String, python_script: &[u8]) {
     }
 }
 
+const WELCOME_MSG: &str = "
+                                    𖤍 𖤍  Valkyrie Interpreter 𖤍 𖤍
+                            This is a simple interpreter for the Valkyrie language.
+                 Valkyrie is a simple language that is designed to be easy to learn and use.
+                    It has the capability to run using both runes and Latin characters.
+                         It is a dynamically typed language with a simple syntax.
+    The interpreter is written in Rust and uses a Python script to convert Runic code to Valkyrie code.
+             The interpreter can run Runic code from a file, a string, or in prompt mode.
+                        In prompt mode, you can enter Runic code line by line.
+              The interpreter can also compile Runic code to Valkyrie code without running it.
+                                Test cases are included in the binary.
+";
+
+const MENU_OPTIONS: &str = "
+↠↠ Select an option: ↞↞
+
+ᛡ 1. Run a file
+ᛡ 2. Run a string
+ᛡ 3. Run in prompt mode
+ᛡ 4. Run in prompt mode (Runic)
+ᛡ 5. Compile only
+ᛡ 6. Show help
+ᛡ 7. Exit
+";
+
 fn main() {
     let python_script: &[u8] = include_bytes!("py/runic-translator.py");
     let test_folder: &[u8] = include_bytes!("examples/examples.zip");
@@ -376,18 +389,9 @@ fn main() {
 }
 
 fn run_help(stdout: &mut io::Stdout, test_folder: &[u8]) {
-    println!("Valkyrie Interpreter");
-    println!("This is a simple interpreter for the Valkirie language.");
-    println!("Valkirie is a simple language that is designed to be easy to learn and use.");
-    println!("It has the capability to run using both runes and Latin characters.");
-    println!("It is a dynamically typed language with a simple syntax.");
-    println!("The interpreter is written in Rust and uses a Python script to convert Runic code to Valkyrie code.");
-    println!("The interpreter can run Runic code from a file, a string, or in prompt mode.");
-    println!("In prompt mode, you can enter Runic code line by line.");
-    println!("The interpreter can also compile Runic code to Valkyrie code without running it.");
-    println!("Test cases are included in the binary.");
+    println!("{}", WELCOME_MSG);
 
-    print!("Do you want to decompress the examples? (y/n): ");
+    print!("ᛡ Do you want to decompress the examples? (y/n): ");
     if stdout.flush().is_err() {
         println!("Could not flush stdout");
         return;

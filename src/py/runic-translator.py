@@ -209,7 +209,7 @@ inverse_lowercase_runes = {v: k for k, v in lowercase_runes.items()}
 inverse_keyword_runes = {v: k for k, v in keyword_runes.items()}
 
 
-# TODO: Revise this function
+
 def translateKeywords(input):
     input = input + " "
     output = []
@@ -226,7 +226,6 @@ def translateKeywords(input):
     output.append(word)
 
     return " ".join(output)
-
 
 def to_custom_symbols(text):
     result = []
