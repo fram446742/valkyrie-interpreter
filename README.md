@@ -24,21 +24,19 @@ To use the Valkyrie Interpreter, you need the Valkyrie-Keymap app. This app prov
 
 1. Clone the repository:
 
-    ```sh
-    git clone https://github.com/fram446742/valkyrie-interpreter.git
-    ```
-
+   ```sh
+   git clone https://github.com/fram446742/valkyrie-interpreter.git
+   ```
 2. Navigate to the project directory:
 
-    ```sh
-    cd valkyrie-rust
-    ```
-
+   ```sh
+   cd valkyrie-rust
+   ```
 3. Build the project using Cargo:
 
-    ```sh
-    cargo build --release
-    ```
+   ```sh
+   cargo build --release
+   ```
 
 ## Usage
 
@@ -47,7 +45,7 @@ To use the Valkyrie Interpreter, you need the Valkyrie-Keymap app. This app prov
 To run a Valkyrie file, use the following command:
 
 ```sh
-cargo run --release run_file <path_to_file>
+cargo run --release --run_file <path_to_file>
 ```
 
 ### Interactive Prompt
@@ -55,7 +53,7 @@ cargo run --release run_file <path_to_file>
 To start an interactive prompt:
 
 ```sh
-cargo run --release run_prompt
+cargo run --release --run_prompt
 ```
 
 ### Runic Prompt
@@ -63,13 +61,13 @@ cargo run --release run_prompt
 To start a runic interactive prompt:
 
 ```sh
-cargo run --release run_prompt_runic
+cargo run --release --run_prompt_runic
 ```
 
-### Compiling a File
+### Translating a File
 
 ```sh
-cargo run --release compile_file <path_to_file>
+cargo run --release --translate_file <path_to_file>
 ```
 
 ## Documentation

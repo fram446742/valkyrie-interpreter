@@ -335,30 +335,30 @@ fn main() {
     if args.len() > 1 {
         let mut stdout = io::stdout();
         match args[1].as_str() {
-            "run_file" => {
+            "--run_file" => {
                 if args.len() < 3 {
                     println!("Usage: run_file <file_path>");
                     return;
                 }
                 run_file_option(&mut stdout, python_script, Some(args[2].clone()));
             }
-            "run_string" => {
+            "--run_string" => {
                 if args.len() < 3 {
                     println!("Usage: run_string <string>");
                     return;
                 }
                 run_string_option(&mut stdout);
             }
-            "run_prompt" => run_prompt_option(&mut stdout),
-            "run_prompt_runic" => run_prompt_option_runic(&mut stdout, python_script),
-            "translate_file" => {
+            "--run_prompt" => run_prompt_option(&mut stdout),
+            "--run_prompt_runic" => run_prompt_option_runic(&mut stdout, python_script),
+            "--translate_file" => {
                 if args.len() < 3 {
                     println!("Usage: translate_file <file_path>");
                     return;
                 }
                 translate_only_option(&mut stdout, python_script, Some(args[2].clone()));
             }
-            "help" => run_help(&mut stdout, test_folder),
+            "--help" => run_help(&mut stdout, test_folder),
             _ => println!("Invalid argument, please try again"),
         }
         return;

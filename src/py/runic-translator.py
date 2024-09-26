@@ -196,7 +196,7 @@ keyword_runes = {
     "class": "🕈",
     "false": "☽",
     "null": "☽𖤍",
-    "pr": "↞↞",
+    "or": "↞↞",
     "print": "♅♅",
     "super": "🕈↟",
     "this": "🕈↡",
@@ -207,8 +207,6 @@ keyword_runes = {
 inverse_uppercase_runes = {v: k for k, v in uppercase_runes.items()}
 inverse_lowercase_runes = {v: k for k, v in lowercase_runes.items()}
 inverse_keyword_runes = {v: k for k, v in keyword_runes.items()}
-
-
 
 def translateKeywords(input):
     input = input + " "
