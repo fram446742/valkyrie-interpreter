@@ -5,7 +5,8 @@ mod tests {
 
     #[test]
     fn execute_tests() {
-        let cases = read_dir(r"X:\Programacion\Valkyrie\valkyrie-rust\src\tests\cases").unwrap();
+        let cases = read_dir(r"X:\Programacion\Valkyrie\valkyrie-interpreter\src\tests\cases")
+            .expect("Failed to read test cases directory");
 
         let mut errors = vec![];
         let mut msgs = vec![];
@@ -15,6 +16,8 @@ mod tests {
             if name.contains("~") {
                 continue;
             }
+
+            println!("Running test: {}", name);
 
             match run_test(case) {
                 Ok(_) => {
@@ -47,10 +50,10 @@ mod tests {
 
         let mut idx = None;
         for (i, line) in lines.iter().enumerate() {
-            if line.starts_with("// --- Test") {
+            if line.starts_with("## --- Test") {
                 continue;
             }
-            if line.starts_with("// --- Expected") {
+            if line.starts_with("## --- Expected") {
                 idx = Some(i);
                 break;
             }
@@ -73,9 +76,14 @@ mod tests {
 
         let input = test_code.join("\n");
 
+        println!("Input line sent to interpreter:\n{}", input);
+
+        println!("Expected output:\n{}", expected_output.join("\n"));
+
         let output = Command::new("cargo")
             .arg("run")
-            .arg("e")
+            .arg("--")
+            .arg("--run_test")
             .arg(input)
             .output()
             .unwrap();
@@ -83,6 +91,8 @@ mod tests {
             .unwrap()
             .split("\n")
             .collect::<Vec<&str>>();
+
+        println!("Output from interpreter:\n{}", lines.join("\n"));
 
         if !(lines.len() == expected_output.len() || lines.len() == expected_output.len() + 1) {
             return Err(format!(

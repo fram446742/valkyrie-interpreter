@@ -1,7 +1,7 @@
-// --- Test
+## --- Test
 return 123;
 
-// --- Expected
-// ERROR:
-// Return statement is not allowed outside of a function
-// 
+## --- Expected
+## ERROR:
+## Return statement is not allowed outside of a function
+## 

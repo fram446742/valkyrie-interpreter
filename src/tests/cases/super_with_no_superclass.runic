@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 
 class Bagel {
     will_fail() {
@@ -9,6 +9,6 @@ class Bagel {
 var b = Bagel();
 b.will_fail();
 
-// --- Expected
-// ERROR:
-// Class has no superclass 
+## --- Expected
+## ERROR:
+## Class has no superclass 

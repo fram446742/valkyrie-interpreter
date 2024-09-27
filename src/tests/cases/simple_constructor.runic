@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class Bagel {
     init() {
         this.a = 2;
@@ -9,6 +9,6 @@ class Bagel {
 var b = Bagel();
 print b.a + b.b;
 
-// --- Expected
-// 5
+## --- Expected
+## 5
 

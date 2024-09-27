@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class Greeter {
     greet() {
         print "Hello, " + this.name;
@@ -9,6 +9,6 @@ var g = Greeter();
 
 g.greet();
 
-// --- Expected
-// ERROR:
-// No field named name on this instance 
+## --- Expected
+## ERROR:
+## No field named name on this instance 

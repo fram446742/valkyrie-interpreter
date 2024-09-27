@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class Bagel {}
 var b = Bagel();
 b.test = 2;
@@ -7,6 +7,6 @@ b.name = "steve";
 print b.test;
 print b.name;
 
-// --- Expected
-// 2
-// "steve"
+## --- Expected
+## 2
+## "steve"

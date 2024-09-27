@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class Greeter {
     hello() {
         print "Hello";
@@ -7,5 +7,5 @@ class Greeter {
 var g = Greeter();
 g.hello();
 
-// --- Expected
-// "Hello"
+## --- Expected
+## "Hello"

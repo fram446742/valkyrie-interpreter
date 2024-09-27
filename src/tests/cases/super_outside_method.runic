@@ -1,10 +1,10 @@
-// --- Test
+## --- Test
 
 fun a() {
     super.test();
 }
 
 
-// --- Expected
-// ERROR:
-// Cannot use 'super' keyword outside of a class
+## --- Expected
+## ERROR:
+## Cannot use 'super' keyword outside of a class

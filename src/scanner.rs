@@ -201,16 +201,38 @@ impl Scanner {
                 } else {
                     Greater
                 };
-
                 self.add_token(token);
             }
-            '/' => {
-                if self.char_match('/') {
+            '#' => {
+                if self.char_match('#') {
                     loop {
                         if self.peek() == '\n' || self.is_at_end() {
                             break;
                         }
                         self.advance();
+                    }
+                } else {
+                    self.add_token(Slash);
+                }
+            }
+            '/' => {
+                if self.char_match('/') {
+                    // Comentario de una sola línea
+                    while self.peek() != '\n' && !self.is_at_end() {
+                        self.advance();
+                    }
+                } else if self.char_match('*') {
+                    // Comentario de múltiples líneas
+                    while !(self.peek() == '*' && self.peek_next() == '/') && !self.is_at_end() {
+                        if self.peek() == '\n' {
+                            self.line += 1;
+                        }
+                        self.advance();
+                    }
+                    // Consumir el '*/'
+                    if !self.is_at_end() {
+                        self.advance(); // Consume '*'
+                        self.advance(); // Consume '/'
                     }
                 } else {
                     self.add_token(Slash);
@@ -546,7 +568,7 @@ mod tests {
 
     #[test]
     fn get_keywords() {
-        let source = "let this_is_a_var = 12;\nwhile true { print 3 };";
+        let source = "var this_is_a_var = 12;\nwhile true { print 3 };";
         let mut scanner = Scanner::new(source);
         scanner.scan_tokens().unwrap();
 

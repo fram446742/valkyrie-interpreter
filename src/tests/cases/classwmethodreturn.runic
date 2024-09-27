@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class Adder {
     add(a, b) {
         return a + b + 1;
@@ -7,5 +7,5 @@ class Adder {
 var a = Adder();
 print a.add(2, 2);
 
-// --- Expected
-// 5 
+## --- Expected
+## 5 

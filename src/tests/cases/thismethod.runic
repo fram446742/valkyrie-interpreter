@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class Greeter {
     greet() {
         print "Hello, " + this.name;
@@ -10,5 +10,5 @@ g.name = "Steve";
 
 g.greet();
 
-// --- Expected
-// "Hello, Steve"
+## --- Expected
+## "Hello, Steve"

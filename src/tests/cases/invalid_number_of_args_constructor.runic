@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class Bagel {
     init(a, b) {
         this.a = a;
@@ -8,6 +8,6 @@ class Bagel {
 
 var b = Bagel(2, 3, 5);
 
-// --- Expected
-// ERROR:
-// Invalid number of arguments in constructor
+## --- Expected
+## ERROR:
+## Invalid number of arguments in constructor

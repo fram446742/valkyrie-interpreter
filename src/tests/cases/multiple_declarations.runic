@@ -1,8 +1,8 @@
-// --- Test
+## --- Test
 { var a = 2; var a = 3; }
 
 
-// --- Expected
-// ERROR:
-// A variable with this name is already in scope
-// 
+## --- Expected
+## ERROR:
+## A variable with this name is already in scope
+## 

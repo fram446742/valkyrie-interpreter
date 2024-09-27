@@ -358,6 +358,13 @@ fn main() {
                 }
                 translate_only_option(&mut stdout, python_script, Some(args[2].clone()));
             }
+            "--run_test" => match run_string(&args[2]) {
+                Ok(_) => exit(0),
+                Err(msg) => {
+                    println!("ERROR:\n{msg}");
+                    exit(1);
+                }
+            },
             "--help" => run_help(&mut stdout, test_folder),
             _ => println!("Invalid argument, please try again"),
         }

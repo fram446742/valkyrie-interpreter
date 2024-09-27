@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 
 class Animal {
     speak() {
@@ -14,7 +14,7 @@ var cat = Cat();
 print cat;
 cat.speak();
 
-// --- Expected
-// Instance of 'Cat'
-// "Hello"
+## --- Expected
+## Instance of 'Cat'
+## "Hello"
 

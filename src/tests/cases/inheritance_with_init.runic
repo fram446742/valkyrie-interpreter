@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class Animal {
     init() {
         this.name = "Animal";
@@ -19,5 +19,5 @@ var cat = Cat();
 cat.speak();
 
 
-// --- Expected
-// "Animal"
+## --- Expected
+## "Animal"

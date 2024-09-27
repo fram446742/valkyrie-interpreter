@@ -1,8 +1,8 @@
-// --- Test
+## --- Test
 fun doesnt_work(a) {
     return this.b + a;
 }
 
-// --- Expected
-// ERROR:
-// Cannot use 'this' keyword outside of a class
+## --- Expected
+## ERROR:
+## Cannot use 'this' keyword outside of a class

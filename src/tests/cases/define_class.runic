@@ -1,4 +1,4 @@
-// --- Test
+## --- Test
 class DevonshireCream {
   serveOn() {
     return "Scones";
@@ -7,5 +7,5 @@ class DevonshireCream {
 
 print DevonshireCream;
 
-// --- Expected
-// Class 'DevonshireCream'
+## --- Expected
+## Class 'DevonshireCream'
