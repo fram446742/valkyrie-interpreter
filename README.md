@@ -14,11 +14,9 @@ To use the Valkyrie Interpreter, you need the Valkyrie-Keymap app. This app prov
 - **Loops**: Support for `while` and `for` loops.
 - **Functions**: Declare functions using the `fun` keyword.
 - **Block-Level Scoping**: Supports block-level scoping for variables.
-- **Generics**: Use generic types for functions and classes.
 - **Getters and Setters**: Encapsulate properties with getters and setters.
 - **Pipes**: Chain function calls using pipe operations.
 - **Non-Trivial Constructors**: Initialize classes with constructors that accept parameters.
-- **This Keyword**: Refer to the current instance of a class using the `This` keyword.
 
 ## Installation
 
