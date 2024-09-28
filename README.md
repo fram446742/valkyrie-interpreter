@@ -77,8 +77,8 @@ Please refer to the [documentation](DOCUMENTATION.md) file.
 Here is an example of a Valkyrie program:
 
 ```valkyrie
-𒌐 (𖤍 = 0; 𖤍 < 10; 𖤍 = 𖤍 + 1) {
-    ♅♅(𖤍);
+𒌐 (𖤍 a = 0; a < 10; a = a + 1) {
+    ♅♅(a);
 }
 ```
 
